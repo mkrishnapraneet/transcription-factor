@@ -124,6 +124,7 @@ for i in range(1, num_frames, 20):
     plt.ylabel("G(r)")
     plt.title(f"van Hove function for lag time = {i}")
     # plt.show()
+plt.show()
 plt.savefig("van_hove.png")
 
 # %% [markdown]
@@ -162,6 +163,7 @@ for i in range(1, num_frames, 20):
     plt.ylabel("P(M, t)")
     plt.title(f"P(M, t) for lag time = {i}")
     # plt.show()
+plt.show()
 plt.savefig("P_initial.png")
 
 # integrate to get G_pred

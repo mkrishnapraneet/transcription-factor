@@ -86,7 +86,7 @@ plt.plot(msd)
 plt.xlabel("lag time (frames)")
 plt.ylabel("MSD (pixels^2)")
 plt.title("Average MSD")
-plt.show()
+# plt.show()
 plt.savefig("msd.png")
 
 # save
@@ -124,9 +124,7 @@ for i in range(1, num_frames, 20):
     plt.ylabel("G(r)")
     plt.title(f"van Hove function for lag time = {i}")
     # plt.show()
-plt.show()
 plt.savefig("van_hove.png")
-
 # %% [markdown]
 # Lucy-Richardson Iterative Algorithm
 # 
@@ -163,9 +161,7 @@ for i in range(1, num_frames, 20):
     plt.ylabel("P(M, t)")
     plt.title(f"P(M, t) for lag time = {i}")
     # plt.show()
-plt.show()
 plt.savefig("P_initial.png")
-
 # integrate to get G_pred
 G_pred = np.zeros((num_frames, r_vals.shape[0]-1))
 print(f"shape of G_pred : {G_pred.shape}")
@@ -199,29 +195,19 @@ def integ2(G_pred, P, r_vals, M_vals):
 
     # update P
 
-    for i in range(1, P.shape[0]):
-        for j in range(P.shape[1]):
-            P[i, j] = P[i, j] * np.trapz(
-                van_hove[i, :] / G_pred[i, :]
-                * np.exp(-r_vals[:-1] ** 2 / M_vals[j])
-                * (2 * np.pi * r_vals[:-1]),
-                r_vals[:-1],
-            )
-
-    # e_pow_r2_into_m = np.exp(np.outer(-r_vals[:-1]*r_vals[:-1], 1/M_vals)) * (2 * np.pi * r_vals[:-1])
-    # arr = np.ones((P.shape[0], P.shape[1]))
     # for i in range(1, P.shape[0]):
-    #     arr[i] = np.trapz(van_hove[i, :] / G_pred[i, :] * e_pow_r2_into_m , r_vals[:-1])
-    #     # print((np.trapz(van_hove[i, :] / G_pred[i, :] * e_pow_r2_into_m * (2 * np.pi * r_vals[:-1]), r_vals[:-1])).shape)
-    #     # P[i] = P[i] * np.trapz(van_hove[i, :] / G_pred[i, :] * e_pow_r2_into_m * (2 * np.pi * r_vals[:-1]), r_vals[:-1],)
-    #     # P[i] = P[i] * np.trapz(van_hove[i, :] / G_pred[i, :] * np.exp(-r_vals[:-1] ** 2 / M_vals) * (2 * np.pi * r_vals[:-1]), r_vals[:-1],)
-    # # print(arr.shape)
-    # # print(arr)
-    # # append arr to file
-    # with open("arr.txt", "a") as f:
-    #     for item in arr:
-    #         f.write("%s\n" % item)
-    # P = P * arr
+    #     for j in range(P.shape[1]):
+    #         P[i, j] *= np.trapz(
+    #             van_hove[i, :] / G_pred[i, :]
+    #             * np.exp(-r_vals[:-1] ** 2 / M_vals[j])
+    #             * (2 * np.pi * r_vals[:-1]),
+    #             r_vals[:-1],
+    #         )
+
+    e_pow_r2_into_m = np.exp(np.outer(1/M_vals, -r_vals[:-1]**2))
+    for i in range(1, P.shape[0]):
+        P[i] *= np.trapz(van_hove[i, :] / G_pred[i, :] * e_pow_r2_into_m * (2 * np.pi * r_vals[:-1]), r_vals[:-1])
+
     
     # normalize P by dividing each element by sum of its row + 1
     P = P / (np.sum(P, axis=1) + 1).reshape(-1, 1)
@@ -233,7 +219,7 @@ def integ2(G_pred, P, r_vals, M_vals):
 # %%
 # iterate until delta is small enough
 delta = 10000
-while delta > 1e-7:
+while delta > 1e-3:
     G_pred = integ1(G_pred, P, r_vals, M_vals)
     P = integ2(G_pred, P, r_vals, M_vals)
     delta = np.sum((P - P_old)**2)
@@ -248,7 +234,7 @@ for i in range(1, num_frames, 20):
     plt.ylabel("G_pred(r)")
     plt.title(f"G_pred(r) for lag time = {i}")
     # plt.show()
-plt.show()
+# plt.show()
 plt.savefig("G_pred.png")
 
 # plot P
@@ -258,7 +244,7 @@ for i in range(1, num_frames, 20):
     plt.ylabel("P(M, t)")
     plt.title(f"P(M, t) for lag time = {i}")
     # plt.show()
-plt.show()
+# plt.show()
 plt.savefig("P_final.png")
 
 # save P

@@ -88,6 +88,8 @@ plt.ylabel("MSD (pixels^2)")
 plt.title("Average MSD")
 # plt.show()
 plt.savefig("msd.png")
+# plt.show()
+plt.close()
 
 # save
 np.savetxt("msd.txt", msd)
@@ -125,6 +127,7 @@ for i in range(1, num_frames, 20):
     plt.title(f"van Hove function for lag time = {i}")
     # plt.show()
 plt.savefig("van_hove.png")
+plt.close()
 # %% [markdown]
 # Lucy-Richardson Iterative Algorithm
 # 
@@ -162,6 +165,7 @@ for i in range(1, num_frames, 20):
     plt.title(f"P(M, t) for lag time = {i}")
     # plt.show()
 plt.savefig("P_initial.png")
+plt.close()
 # integrate to get G_pred
 G_pred = np.zeros((num_frames, r_vals.shape[0]-1))
 print(f"shape of G_pred : {G_pred.shape}")
@@ -236,6 +240,7 @@ for i in range(1, num_frames, 20):
     # plt.show()
 # plt.show()
 plt.savefig("G_pred.png")
+plt.close()
 
 # plot P
 for i in range(1, num_frames, 20):
@@ -246,6 +251,7 @@ for i in range(1, num_frames, 20):
     # plt.show()
 # plt.show()
 plt.savefig("P_final.png")
+plt.close()
 
 # save P
 np.savetxt("P.txt", P)

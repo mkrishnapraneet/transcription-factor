@@ -249,7 +249,7 @@ def integ2(G_pred, P, r_vals, M_vals, ratio):
 delta = 10000
 num_iter = 0
 temp = np.ones_like(G_pred)
-while delta > 1e-5:
+while delta > 1e-7:
     G_pred = integ1(G_pred, P, r_vals, M_vals)
     P = integ2(G_pred, P, r_vals, M_vals, temp)
     delta = np.sum((P - P_old) ** 2)

@@ -1,7 +1,5 @@
 # %%
 import numpy as np
-import scipy.integrate as integrate
-import math
 import matplotlib.pyplot as plt
 
 # %%

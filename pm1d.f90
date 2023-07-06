@@ -23,7 +23,7 @@
             ! time at which we want to calculate P(M,tref)
             integer::tref
             ! keep trefmax > tref
-            integer,parameter::trefmax=100
+            integer,parameter::trefmax=30
             ! maximum size of the distance mesh
             integer,parameter::ndmax=10
             !number of bins of the MSD mesh

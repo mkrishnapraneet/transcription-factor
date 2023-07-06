@@ -219,7 +219,7 @@ def integ2(G_pred, P, r_vals, M_vals):
 # %%
 # iterate until delta is small enough
 delta = 10000
-while delta > 1e-3:
+while delta > 1e-7:
     G_pred = integ1(G_pred, P, r_vals, M_vals)
     P = integ2(G_pred, P, r_vals, M_vals)
     delta = np.sum((P - P_old)**2)

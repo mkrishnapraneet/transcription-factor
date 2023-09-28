@@ -9,6 +9,6 @@
 #eval "$(conda shell.bash hook)"
 #conda activate peptides
 
-python3 RL_run.py
+python3 rs.py
 
 # while true; do continue; done;
